@@ -21,6 +21,7 @@ function show(elementToShow) {
   } else if (elementToShow === "hire-help") {
     hide("upgrades");
   }
+  refreshOptions();
 }
 //#endregion
 //#region initalizing the player and starting the game
@@ -28,31 +29,37 @@ function show(elementToShow) {
 /**
  *starts a new game
  */
-function play() {
-  // event.preventDefault(); add event as param
-  // let form = event.target;
-  // createPlayer(form.username.value);
-  // hide("start-menu");
-  // show("game");
-  setInterval(() => {
-    user.addGold(user.goldPerSecond);
-    console.log("gold:" + user.gold);
-  }, 1000);
+function play(event) {
+  event.preventDefault();
+  let form = event.target;
+  createPlayer(form.username.value);
+  hide("start-menu");
+  show("game");
+  setRewardInterval();
 }
-play();
+function setRewardInterval(rewardInterval = 1000) {
+  setInterval(() => {
+    user.addGoldAuto();
+  }, rewardInterval);
+}
 class User {
   constructor(name) {
     this.id = 123;
     this.name = name;
     this.gold = 0;
-    this.multiplyer = 1;
+    this.clickPower = 1;
     this.goldPerSecond = 0.25;
   }
-  addGold(bonus = 0) {
-    this.gold += bonus + this.multiplyer;
+  addGoldOnClick() {
+    this.gold += this.clickPower;
+    drawGoldCounter();
+  }
+  addGoldAuto() {
+    this.gold += this.goldPerSecond;
     drawGoldCounter();
   }
 }
+
 const player = {};
 //todo remove this before relasing game it is to make a player
 
@@ -76,23 +83,119 @@ function drawGoldCounter() {
     .toString()}`;
   document.getElementById(
     "gold-per-second"
-  ).innerText = `gold per second: ${Math.floor(user.goldPerSecond)
-    .toFixed(0)
-    .toString()}`;
+  ).innerText = `gold per second: ${user.goldPerSecond.toFixed(2).toString()}`;
 }
 drawGoldCounter();
 
 function clickImg() {
-  user.addGold(1);
-  drawGoldCounter();
+  user.addGoldOnClick();
 }
 
 function upGoldPerSecond(cost, amount) {
   user.gold -= cost;
   user.goldPerSecond += amount;
+  drawGoldCounter();
 }
 
-function upgradeClicks(cost, clicksToAdd) {
+function upgradeGoldPerSec(id) {
+  blacksmiths.find((bs) => {
+    if (bs.id === id) {
+      upGoldPerSecond(bs.upgradeCost, bs.upgrade);
+    }
+  });
+}
+function upClickPower(cost, amountToAdd) {
   user.gold -= cost;
-  user.multiplyer += clicksToAdd;
+  user.clickPower += amountToAdd;
+}
+function upgradeClickPower(id) {
+  upgrades.find((t) => {
+    if (t.id === id) {
+      upClickPower(t.upgradeCost, t.upgrade);
+    }
+  });
+}
+
+class Tool {
+  constructor(id, upgradeCost, upgrade, icon, name) {
+    this.id = id;
+    this.upgradeCost = upgradeCost;
+    this.upgrade = upgrade;
+    this.icon = icon;
+    this.name = name;
+  }
+}
+class Blacksmith {
+  constructor(id, upgradeCost, upgrade, icon, name) {
+    this.id = id;
+    this.upgradeCost = upgradeCost;
+    this.upgrade = upgrade;
+    this.icon = icon;
+    this.name = name;
+  }
+}
+let blacksmiths = [];
+let upgrades = [];
+function createUpgrades() {
+  let blacksmithApprentice = new Blacksmith(
+    1234,
+    100,
+    1,
+    "fa-burn",
+    "apprentice"
+  );
+  let blacksmithJournyman = new Blacksmith(
+    152345,
+    200,
+    3,
+    "fa-burn",
+    "journyman"
+  );
+  let blacksmithMaster = new Blacksmith(172364, 300, 5, "fa-burn", "master");
+  blacksmiths.push(blacksmithApprentice);
+  blacksmiths.push(blacksmithJournyman);
+  blacksmiths.push(blacksmithMaster);
+  let hammer = new Tool(9877, 25, 1, "fa-hammer", "Hammer");
+  let anvil = new Tool(8897765, 500, 4, "fa-archive", "anvil");
+  let forge = new Tool(22153, 7500, 10, "fa-burn", "forge");
+  upgrades.push(hammer);
+  upgrades.push(anvil);
+  upgrades.push(forge);
+}
+createUpgrades();
+function drawUpgradeOptions() {
+  let template = "";
+  upgrades.forEach((u) => {
+    if (user.gold >= u.upgradeCost) {
+      template += `<div >
+      <div><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas '${u.icon}' text-warning"></i><button onclick="upgradeClickPower(${u.id})"  class=" btn-1 btn btn-success">Upgrade '${u.name}' <br> cost: ${u.upgradeCost} <br> <small> + ${u.upgrade} gold per click!</small> </button></h1></div>
+      </div>`;
+    } else {
+      template += `<div >
+      <div><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas '${u.icon}' text-warning"></i><button disabled onclick="upgradeClickPower(${u.id})"  class=" btn-1 btn btn-success">Upgrade '${u.name}' <br> cost: ${u.upgradeCost} <br> <small> + ${u.upgrade} gold per click!</small> </button></h1></div>
+      </div>`;
+    }
+  });
+  document.getElementById("ugb").innerHTML = template;
+}
+
+function drawHireOptions() {
+  let template = "";
+  blacksmiths.forEach((bs) => {
+    if (user.gold >= bs.upgradeCost) {
+      template += `<div >
+      <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas '${bs.icon}' text-warning"></i><button  onclick="upgradeGoldPerSec(${bs.id})" class=" btn-1 btn btn-success">Hire '${bs.name}' <br> cost: ${bs.upgradeCost}<br> <small> + ${bs.upgrade} gold per sec</small> </button></h1></div>
+      </div>`;
+    } else {
+      template += `<div >
+    <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas '${bs.icon}' text-warning"></i><button disabled onclick="upgradeGoldPerSec(${bs.id})" class=" btn-1 btn btn-success">Hire '${bs.name}' <br> cost: ${bs.upgradeCost}<br> <small> + ${bs.upgrade} gold per sec</small> </button></h1></div>
+  </div>`;
+    }
+  });
+  document.getElementById("hb").innerHTML = template;
+}
+
+function refreshOptions() {
+  drawUpgradeOptions();
+  drawHireOptions();
 }

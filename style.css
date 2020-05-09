@@ -68,3 +68,10 @@
   min-width: 75%;
   min-height: 8vh;
 }
+
+@keyframes slideup {
+  0% {
+  }
+  100% {
+  }
+}

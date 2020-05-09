@@ -19,7 +19,7 @@
       <div class="row">
         <div
           id="start-menu"
-          class="col-12 start-menu bg-dark align-items-center justify-content-center hidden"
+          class="col-12 start-menu bg-dark align-items-center justify-content-center "
         >
           <div class="d-block">
             <h1 class="text-center p-2 m-2 text-success">Mr Smith</h1>
@@ -62,48 +62,33 @@
         </div>
         <div class="row">
           <div id="forge"  class="col-12 view">
-            <img onclick="clickImg()" class="img-fluid mt-2 forge" src="//placehold.it/300" alt="" />
+            <img onclick="clickImg()" class="img-fluid mt-2 forge" src="/resources/anvil.png" alt="" />
           </div>
         </div>
        </div>
        <div class="row bg-dark">
-        <div id="upgrades" class="col-12 upgrade-menu bg-dark">
+        <div id="upgrades" class="col-12 upgrade-menu bg-dark hidden">
           <div onclick="hide('upgrades')" class="close-btn">X</div>
            
-<div class="pt-5">  
-  <div class="text-center text-light">
-    <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas fa-hammer text-warning"></i><button class=" btn-1 btn btn-success">Upgrade Hammer <br> cost: 25 <br> <small> + 1 gold per click!</small> </button></h1></div>
-  </div>
-  <div >
-    <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas fa-archive text-warning"></i><button class=" btn-1 btn btn-success">Upgrade Anvil <br> cost: 500 <br> <small> + 5 gold per click!</small> </button></h1></div>
-  </div>
-  <div >
-    <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas fa-burn text-warning"></i><button class=" btn-1 btn btn-success">Upgrade Forge <br> cost: 2000 <br> <small> + 10 gold per click!</small> </button></h1></div>
-  </div>
+<div id="ugb" class="pt-5 ugb">
+</div>  
+<!-- buttons are placed here with js -->
   </div>
 </div>
 
+<div class="row">
 
-<div id="hire-help" class="col-12 hire-menu bg-dark hidden  ">
-          <div onclick="hide('hire-help')" class="close-btn">X</div>
-
-          
-          <div class="d-flex justify-content-around wrap">
-
-            <div class="pt-5">  
-              <div class="text-center text-light">
-                <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas fa-hammer text-warning"></i><button class=" btn-1 btn btn-success">Hire apprentice blacksmith<br> cost: 100 <br> <small> + 1 gold per sec</small> </button></h1></div>
-              </div>
-              <div >
-                <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas fa-archive text-warning"></i><button class=" btn-1 btn btn-success">Hire journeyman blacksmith <br> cost: 2500 <br> <small> + 5 gold per sec</small> </button></h1></div>
-              </div>
-              <div >
-                <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas fa-burn text-warning"></i><button class=" btn-1 btn btn-success">Hire master blacksmith <br> cost: 5000 <br> <small> + 10 gold per sec</small> </button></h1></div>
-              </div>
-              </div>
-          </div>
-        </div>
-
+  <div id="hire-help" class="col-12 hire-menu bg-dark hidden  ">
+    <div onclick="hide('hire-help')" class="close-btn">X</div>
+    <div  class="pt-5" id="hb">  
+      
+      
+      
+      
+      
+    </div>
+  </div>
+</div>
 
 
           <div class="col-12">
