@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Mr Smith</title>
+  </head>
+  <body>
+    <!--Start Menu  -->
+    <section>
+      <div class="row">
+        <div
+          id="start-menu"
+          class="col-12 start-menu bg-dark align-items-center justify-content-center hidden"
+        >
+          <div class="d-block">
+            <h1 class="text-center p-2 m-2 text-success">Mr Smith</h1>
+          </div>
+          <div>
+            <form id="play" onsubmit="play(event)">
+              <div>
+                <input
+                  class="mb-3 p-2 input text-center"
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                class="text-large btn btn-success play-btn ml-auto p-3"
+              >
+                Play Now !
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--End of start Menu  -->
+    <!-- game-section -->
+
+    <section>
+      <main id="game" class="container-fluid bg-light">
+        <div class="row bg-dark">
+          <div class="col-12 text-success"><h3 class="p-1">Mr smith</h3></div>
+        </div>
+        <div class="row">
+          <div class="col-12 m-auto text-center"><h5>gold: 100000</h5></div>
+        </div>
+        <div class="row">
+          <div id="forge" class="col-12 view">
+            <img class="img-fluid mt-2 forge" src="//placehold.it/300" alt="" />
+          </div>
+        </div>
+       </div>
+       <div class="row bg-dark">
+        <div id="upgrades" class="col-12 upgrade-menu bg-dark hidden ">
+          <div onclick="hide('upgrades')" class="close-btn">X</div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo repellat eos fugiat voluptatibus maxime incidunt repellendus hic sequi provident ipsum. Officia a, vel ullam maxime tenetur harum est excepturi. S a libero, deleniti commodi ipsa veniam perspiciatis ipsam! Ipsam, ad! Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita nam, consequuntur impedit, nihil odio recusandae dolore distinctio corporis hic assumenda dolorum quidem iste. Debitis atque libero dolores non asperiores. Ipsum. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime, enim nihil libero aliquid molestias ratione quam. Aperiam tempore sequi pariatur odio asperiores laboriosam quos, repellendus inventore minus eveniet doloribus adipisci.</p>
+        </div>
+        
+        <div id="hire-help" class="col-12 hire-menu bg-dark  ">
+          <div onclick="hide('hire-help')" class="close-btn">X</div>
+          <div class="d-flex justify-content-around wrap">
+
+            <div>
+              <button class="btn-1">upgrade 1</button>
+            </div>
+            <div>
+              <button class="btn-1">upgrade 2</button>
+            </div>
+            <div>
+              <button class="btn-1">upgrade3</button>
+            </div>
+          </div>
+        </div>
+          <div class="col-12">
+            
+        <div id="button-cont" class="row bg-dark ">
+          <div class="col-12 d-flex justify-content-center">
+            <button class="btn p-2 btn-success push-up">upgrades</button>
+            <button class="btn p-2 btn-success push-up">Hire help</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      </main>
+    </section>
+    <!--end of game area-  -->
+    <script
+      src="https://kit.fontawesome.com/d81e10aab1.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="main.js"></script>
+  </body>
+</html>

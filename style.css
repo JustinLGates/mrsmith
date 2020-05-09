@@ -1,0 +1,72 @@
+.start-menu {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.view {
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+}
+.hidden {
+  display: none !important;
+}
+.play-btn {
+  width: 100%;
+}
+.push-up {
+  z-index: 3;
+  position: relative;
+  top: -2rem;
+  padding: 0.5rem;
+  min-width: 20vw;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.upgrade-menu {
+  z-index: 2;
+  position: absolute;
+  top: 20vh;
+  /* min-width: 85vw; */
+  min-height: 80vh;
+}
+.hire-menu {
+  z-index: 2;
+  position: absolute;
+  top: 20vh;
+  /* min-width: 85vw; */
+  min-height: 80vh;
+}
+.game-background {
+  color: aqua;
+}
+
+.forge {
+  /* margin: 2rem; */
+}
+
+.close-btn {
+  z-index: 1;
+  cursor: pointer;
+  font-size: xx-large;
+  font-weight: 900;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 75vw;
+  top: 3vh;
+  height: 3rem;
+  width: 3rem;
+  background: rgb(236, 71, 71);
+  border-radius: 100%;
+}
+.wrap {
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.btn-1 {
+  margin-top: 2rem;
+  width: 100%;
+}
