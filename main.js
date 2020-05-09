@@ -1,7 +1,5 @@
 //#region User interface manipulation
 
-function drawGold() {}
-
 /**
  * takes an element name and adds hidden class to argument
  * must be an elements id
@@ -30,29 +28,71 @@ function show(elementToShow) {
 /**
  *starts a new game
  */
-function play(event) {
-  event.preventDefault();
-  let form = event.target;
-  createPlayer(form.username.value);
-  hide("start-menu");
-  show("game");
+function play() {
+  // event.preventDefault(); add event as param
+  // let form = event.target;
+  // createPlayer(form.username.value);
+  // hide("start-menu");
+  // show("game");
+  setInterval(() => {
+    user.addGold(user.goldPerSecond);
+    console.log("gold:" + user.gold);
+  }, 1000);
 }
+play();
 class User {
   constructor(name) {
     this.id = 123;
     this.name = name;
+    this.gold = 0;
+    this.multiplyer = 1;
+    this.goldPerSecond = 0.25;
+  }
+  addGold(bonus = 0) {
+    this.gold += bonus + this.multiplyer;
+    drawGoldCounter();
   }
 }
+const player = {};
 //todo remove this before relasing game it is to make a player
 
 /**
  * creates a new player
  * @param {string} username
  */
+
+const user = new User("");
 function createPlayer(username) {
-  let user = new User(username);
-  drawUserName(user.name);
+  user.name = username;
+  drawGoldCounter();
 }
-function drawUserName(username) {
-  document.getElementById("name-display").innerText = username;
+createPlayer("justin");
+// function drawUserName(username) {
+//   document.getElementById("name-display").innerText = username;
+// }
+function drawGoldCounter() {
+  document.getElementById("gold").innerText = `Gold: ${Math.floor(user.gold)
+    .toFixed(0)
+    .toString()}`;
+  document.getElementById(
+    "gold-per-second"
+  ).innerText = `gold per second: ${Math.floor(user.goldPerSecond)
+    .toFixed(0)
+    .toString()}`;
+}
+drawGoldCounter();
+
+function clickImg() {
+  user.addGold(1);
+  drawGoldCounter();
+}
+
+function upGoldPerSecond(cost, amount) {
+  user.gold -= cost;
+  user.goldPerSecond += amount;
+}
+
+function upgradeClicks(cost, clicksToAdd) {
+  user.gold -= cost;
+  user.multiplyer += clicksToAdd;
 }
