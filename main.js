@@ -56,6 +56,8 @@ class User {
     this.gold = 0;
     this.clickPower = 1;
     this.goldPerSecond = 0.0;
+    this.tools = [];
+    this.workers = [];
   }
   addGoldOnClick() {
     this.gold += this.clickPower;
@@ -82,13 +84,13 @@ function createPlayer(username) {
   user.name = username;
   drawGoldCounter();
 }
-createPlayer("justin");
+
 // function drawUserName(username) {
 //   document.getElementById("name-display").innerText = username;
 // }
 function drawGoldCounter() {
   document.getElementById("gold").innerText = `Gold: ${Math.floor(user.gold)
-    .toFixed(0)
+    .toFixed(2)
     .toString()}`;
   document.getElementById(
     "gold-per-second"
@@ -98,7 +100,12 @@ drawGoldCounter();
 
 function clickImg() {
   user.addGoldOnClick();
+
+  document.getElementById("hammer").classList.add("fa-spin");
   playHammerSound();
+  setTimeout(() => {
+    document.getElementById("hammer").classList.remove("fa-spin");
+  }, 400);
 }
 
 function upGoldPerSecond(cost, amount) {
@@ -110,6 +117,7 @@ function upgradeGoldPerSec(id) {
   blacksmiths.find((bs) => {
     if (bs.id === id) {
       upGoldPerSecond(bs.upgradeCost, bs.upgrade);
+      increaseCostHire(bs.id);
       drawGoldCounter();
       drawHireOptions();
     }
@@ -123,6 +131,7 @@ function upgradeClickPower(id) {
   upgrades.find((t) => {
     if (t.id === id) {
       upClickPower(t.upgradeCost, t.upgrade);
+      increaseCostTool(t.id);
       drawGoldCounter();
       drawUpgradeOptions();
     }
@@ -135,21 +144,25 @@ function playHammerSound() {
   audio.play();
 }
 class Tool {
-  constructor(id, upgradeCost, upgrade, icon, name) {
+  constructor(id, upgradeCost, upgrade, icon, name, baseCost, baseUpgrade) {
     this.id = id;
     this.upgradeCost = upgradeCost;
     this.upgrade = upgrade;
     this.icon = icon;
     this.name = name;
+    this.baseCost = baseCost;
+    this.baseUpgrade = baseUpgrade;
   }
 }
 class Blacksmith {
-  constructor(id, upgradeCost, upgrade, icon, name) {
+  constructor(id, upgradeCost, upgrade, icon, name, baseCost, baseUpgrade) {
     this.id = id;
     this.upgradeCost = upgradeCost;
     this.upgrade = upgrade;
     this.icon = icon;
     this.name = name;
+    this.baseCost = baseCost;
+    this.baseUpgrade = baseUpgrade;
   }
 }
 let blacksmiths = [];
@@ -157,31 +170,37 @@ let upgrades = [];
 function createUpgrades() {
   let blacksmithApprentice = new Blacksmith(
     1234,
-    100,
-    1,
+    250,
+    0.25,
     "fa-baby",
-    "apprentice"
+    "apprentice",
+    50,
+    0.25
   );
   let blacksmithJournyman = new Blacksmith(
     152345,
-    200,
-    3,
+    500,
+    0.5,
     "fa-user-tie",
-    "journyman"
+    "journyman",
+    100,
+    0.5
   );
   let blacksmithMaster = new Blacksmith(
-    172364,
-    300,
-    5,
+    150034,
+    1000,
+    1,
     "fa-user-ninja",
-    "master"
+    "master",
+    250,
+    1
   );
   blacksmiths.push(blacksmithApprentice);
   blacksmiths.push(blacksmithJournyman);
   blacksmiths.push(blacksmithMaster);
-  let hammer = new Tool(9877, 25, 1, "fa-hammer", "Hammer");
-  let anvil = new Tool(8897765, 500, 4, "fa-archive", "anvil");
-  let forge = new Tool(22153, 7500, 10, "fa-burn", "forge");
+  let hammer = new Tool(9877, 25, 0.25, "fa-hammer", "Hammer", 12, 0.25);
+  let anvil = new Tool(8897765, 100, 1, "fa-archive", "anvil", 50, 0.5);
+  let forge = new Tool(22153, 1000, 5, "fa-burn", "forge", 500, 1);
   upgrades.push(hammer);
   upgrades.push(anvil);
   upgrades.push(forge);
@@ -227,9 +246,11 @@ function refreshOptions() {
 
 function saveGame() {
   window.localStorage.setItem(user.name, JSON.stringify(user));
+  //todo add saving tools and smiths
 }
 
 function loadGame(username) {
+  //todo add loading tools and smiths will need to change where they are created
   let gameData = window.localStorage.getItem(username);
   console.log("loading.....");
   if (gameData) {
@@ -237,10 +258,27 @@ function loadGame(username) {
     user.id = JSON.parse(gameData).id;
     user.gold = JSON.parse(gameData).gold;
     user.goldPerSecond = JSON.parse(gameData).goldPerSecond;
-    console.log(user.name + "found");
+    user.gold = 1000000;
     drawGoldCounter();
   } else {
-    console.log("no data could be found");
     createPlayer(username);
+    user.gold = 1000000;
   }
+}
+
+function increaseCostTool(id) {
+  upgrades.find((tool) => {
+    if (tool.id === id) {
+      tool.upgradeCost += tool.baseCost;
+      tool.upgrade += tool.baseUpgrade;
+    }
+  });
+}
+function increaseCostHire(id) {
+  blacksmiths.find((smith) => {
+    if (smith.id === id) {
+      smith.upgradeCost += smith.baseCost;
+      smith.upgrade += smith.baseUpgrade;
+    }
+  });
 }

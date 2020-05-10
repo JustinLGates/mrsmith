@@ -98,6 +98,19 @@
   }
 }
 
+.hammer {
+  z-index: 2;
+  position: absolute;
+  width: 8rem;
+  height: 8rem;
+  top: 27%;
+  left: 42%;
+}
+:hover.hammer {
+  cursor: pointer;
+  width: 9rem;
+  height: 9rem;
+}
 @media only screen and (max-width: 800px) {
   .hire-menu {
     border: 2px solid rgb(222, 224, 57);
@@ -141,5 +154,16 @@
   }
   .hidden {
     display: block;
+  }
+  .hammer {
+    width: 5rem;
+    height: 5rem;
+    top: 33%;
+    left: 29%;
+  }
+  :hover.hammer {
+    cursor: pointer;
+    width: 6rem;
+    height: 6rem;
   }
 }

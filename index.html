@@ -19,7 +19,7 @@
       <div class="row">
         <div
           id="start-menu"
-          class="col-12 start-menu bg-dark align-items-center justify-content-center"
+          class="col-12 start-menu bg-dark align-items-center justify-content-center d-none"
         >
           <div class="d-block">
             <h1 class="text-center p-2 m-2 text-success">Mr Smith</h1>
@@ -60,7 +60,7 @@
 
     
     <section>
-      <main id="game" class="container-fluid bg-dark text-success hidden">
+      <main id="game" class="container-fluid bg-dark text-success">
         <div class="row bg-dark">
           <div class="col-12 text-success"><h3 class="p-1">Mr smith</h3></div>
         </div>
@@ -70,9 +70,10 @@
             <small id="gold-per-second"></small>
           </div>
         </div>
-        <div class="row bg-game bg-dark">
+        <div  class="row bg-game bg-dark">
           <div id="forge"  class="col-12 view  ">
-            <img class="anvil" onclick="clickImg()" class="img-fluid mt-2 anvil" src="resources/anvil.png" alt="hmmm somthing went wrong with this image" />
+            <img onclick="clickImg()" id="hammer" class="hammer" src="https://vignette1.wikia.nocookie.net/dofus/images/0/08/Sword_Smith%27s_Hammer.png/revision/latest?cb=20090816233954" alt="">
+            <img id="anvil" class="anvil"  class="img-fluid mt-2 anvil" src="resources/anvil.png" alt="hmmm somthing went wrong with this image" />
           </div>
         </div>
        </div>
