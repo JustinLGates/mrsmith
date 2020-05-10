@@ -32,10 +32,17 @@ function show(elementToShow) {
 function play(event) {
   event.preventDefault();
   let form = event.target;
-  createPlayer(form.username.value);
+  //check if player has player
+  loadGame(form.username.value);
   hide("start-menu");
   show("game");
   setRewardInterval();
+  saveGameIntervel();
+}
+function saveGameIntervel() {
+  setInterval(() => {
+    saveGame();
+  }, 5000);
 }
 function setRewardInterval(rewardInterval = 1000) {
   setInterval(() => {
@@ -48,7 +55,7 @@ class User {
     this.name = name;
     this.gold = 0;
     this.clickPower = 1;
-    this.goldPerSecond = 0.25;
+    this.goldPerSecond = 0.0;
   }
   addGoldOnClick() {
     this.gold += this.clickPower;
@@ -69,7 +76,8 @@ const player = {};
  * @param {string} username
  */
 
-const user = new User("");
+let user = new User("");
+
 function createPlayer(username) {
   user.name = username;
   drawGoldCounter();
@@ -90,6 +98,7 @@ drawGoldCounter();
 
 function clickImg() {
   user.addGoldOnClick();
+  playHammerSound();
 }
 
 function upGoldPerSecond(cost, amount) {
@@ -120,9 +129,9 @@ function upgradeClickPower(id) {
   });
 }
 var audio;
+
 function playHammerSound() {
   audio = document.getElementById("hammer1");
-
   audio.play();
 }
 class Tool {
@@ -214,4 +223,24 @@ function drawHireOptions() {
 function refreshOptions() {
   drawUpgradeOptions();
   drawHireOptions();
+}
+
+function saveGame() {
+  window.localStorage.setItem(user.name, JSON.stringify(user));
+}
+
+function loadGame(username) {
+  let gameData = window.localStorage.getItem(username);
+  console.log("loading.....");
+  if (gameData) {
+    user.name = JSON.parse(gameData).name;
+    user.id = JSON.parse(gameData).id;
+    user.gold = JSON.parse(gameData).gold;
+    user.goldPerSecond = JSON.parse(gameData).goldPerSecond;
+    console.log(user.name + "found");
+    drawGoldCounter();
+  } else {
+    console.log("no data could be found");
+    createPlayer(username);
+  }
 }

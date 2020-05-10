@@ -19,7 +19,7 @@
       <div class="row">
         <div
           id="start-menu"
-          class="col-12 start-menu bg-dark align-items-center justify-content-center hidden"
+          class="col-12 start-menu bg-dark align-items-center justify-content-center"
         >
           <div class="d-block">
             <h1 class="text-center p-2 m-2 text-success">Mr Smith</h1>
@@ -56,8 +56,11 @@
      -->
     
     <audio id="hammer1"src="resources/hammer1.wav"></audio>
+    <audio id="hammer2"src="resources/hammer1.mp3"></audio>
+
+    
     <section>
-      <main id="game" class="container-fluid bg-dark text-success">
+      <main id="game" class="container-fluid bg-dark text-success hidden">
         <div class="row bg-dark">
           <div class="col-12 text-success"><h3 class="p-1">Mr smith</h3></div>
         </div>
@@ -74,7 +77,7 @@
         </div>
        </div>
        <div class="row bg-dark">
-        <div id="upgrades" class="col-12 m-auto upgrade-menu bg-dark hidden">
+        <div id="upgrades" class="col-12 m-auto upgrade-menu bg-dark d-lg-block hidden">
           <div onclick="hide('upgrades')" class="close-btn"><h1><i class="fas fa-arrow-down"></i></h1></div>
            
 <div id="ugb" class="pt-5 ugb">
@@ -85,7 +88,7 @@
 
 <div class="row">
 
-  <div id="hire-help" class="col-12  hire-menu bg-dark hidden  ">
+  <div id="hire-help" class="col-12   hire-menu bg-dark d-lg-block hidden  ">
     <div onclick="hide('hire-help')" class="close-btn"><h1><i class="fas fa-arrow-down"></i></h1></div>
     <div  class="pt-5 bg-dark" id="hb">  
       

@@ -46,9 +46,9 @@
   top: 20vh;
   /* min-width: 85vw; */
   min-height: 80vh;
-  left: 5vw;
-  right: 5vw;
-  width: 90vw;
+  left: 0vw;
+  right: 72vw;
+  width: 25vw;
 }
 .hire-menu {
   border: 2px solid rgb(222, 224, 57);
@@ -57,12 +57,9 @@
   top: 20vh;
   /* min-width: 85vw; */
   min-height: 80vh;
-  left: 5vw;
-  right: 5vw;
-  width: 90vw;
-}
-.game-background {
-  color: aqua;
+  left: 73.5vw;
+  right: 0vw;
+  width: 25vw;
 }
 
 .close-btn {
@@ -74,7 +71,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  left: 70vw;
+  left: 21vw;
   top: 1vh;
   height: 3rem;
   width: 3rem;
@@ -98,5 +95,51 @@
   }
   100% {
     top: 40vh;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .hire-menu {
+    border: 2px solid rgb(222, 224, 57);
+    z-index: 2;
+    position: absolute;
+    top: 20vh;
+    /* min-width: 85vw; */
+    min-height: 80vh;
+    left: 5vw;
+    right: 5vw;
+    width: 90vw;
+  }
+  .upgrade-menu {
+    border: 2px solid rgb(222, 224, 57);
+
+    z-index: 2;
+    position: absolute;
+    top: 20vh;
+    /* min-width: 85vw; */
+    min-height: 80vh;
+    left: 5vw;
+    right: 5vw;
+    width: 90vw;
+  }
+  .close-btn {
+    z-index: 1;
+    cursor: pointer;
+    font-size: xx-large;
+    font-weight: 900;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 70vw;
+    top: 1vh;
+    height: 3rem;
+    width: 3rem;
+    background: rgba(238, 255, 0, 0.596);
+    border-radius: 100%;
+    color: rgb(0, 0, 0);
+  }
+  .hidden {
+    display: block;
   }
 }
