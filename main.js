@@ -150,17 +150,23 @@ function createUpgrades() {
     1234,
     100,
     1,
-    "fa-burn",
+    "fa-baby",
     "apprentice"
   );
   let blacksmithJournyman = new Blacksmith(
     152345,
     200,
     3,
-    "fa-burn",
+    "fa-user-tie",
     "journyman"
   );
-  let blacksmithMaster = new Blacksmith(172364, 300, 5, "fa-burn", "master");
+  let blacksmithMaster = new Blacksmith(
+    172364,
+    300,
+    5,
+    "fa-user-ninja",
+    "master"
+  );
   blacksmiths.push(blacksmithApprentice);
   blacksmiths.push(blacksmithJournyman);
   blacksmiths.push(blacksmithMaster);
@@ -177,11 +183,11 @@ function drawUpgradeOptions() {
   upgrades.forEach((u) => {
     if (user.gold >= u.upgradeCost) {
       template += `<div >
-      <div><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas '${u.icon}' text-warning"></i><button onclick="upgradeClickPower(${u.id})"  class=" btn-1 btn btn-success">Upgrade '${u.name}' <br> cost: ${u.upgradeCost} <br> <small> + ${u.upgrade} gold per click!</small> </button></h1></div>
+      <div><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas ${u.icon} text-warning"></i><button onclick="upgradeClickPower(${u.id})"  class=" btn-1 btn btn-success">Upgrade '${u.name}' <br> cost: ${u.upgradeCost} <br> <small> + ${u.upgrade} gold per click!</small> </button></h1></div>
       </div>`;
     } else {
       template += `<div >
-      <div><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas '${u.icon}' text-warning"></i><button disabled onclick="upgradeClickPower(${u.id})"  class=" btn-1 btn btn-success">Upgrade '${u.name}' <br> cost: ${u.upgradeCost} <br> <small> + ${u.upgrade} gold per click!</small> </button></h1></div>
+      <div><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas ${u.icon} text-warning"></i><button disabled onclick="upgradeClickPower(${u.id})"  class=" btn-1 btn btn-success">Upgrade '${u.name}' <br> cost: ${u.upgradeCost} <br> <small> + ${u.upgrade} gold per click!</small> </button></h1></div>
       </div>`;
     }
   });
@@ -193,11 +199,11 @@ function drawHireOptions() {
   blacksmiths.forEach((bs) => {
     if (user.gold >= bs.upgradeCost) {
       template += `<div >
-      <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas '${bs.icon}' text-warning"></i><button  onclick="upgradeGoldPerSec(${bs.id})" class=" btn-1 btn btn-success">Hire '${bs.name}' <br> cost: ${bs.upgradeCost}<br> <small> + ${bs.upgrade} gold per sec</small> </button></h1></div>
+      <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas ${bs.icon} text-warning"></i><button  onclick="upgradeGoldPerSec(${bs.id})" class=" btn-1 btn btn-success">Hire '${bs.name}' <br> cost: ${bs.upgradeCost}<br> <small> + ${bs.upgrade} gold per sec</small> </button></h1></div>
       </div>`;
     } else {
       template += `<div >
-    <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas '${bs.icon}' text-warning"></i><button disabled onclick="upgradeGoldPerSec(${bs.id})" class=" btn-1 btn btn-success">Hire '${bs.name}' <br> cost: ${bs.upgradeCost}<br> <small> + ${bs.upgrade} gold per sec</small> </button></h1></div>
+    <div  ><h1 class=" d-flex justify-content-around align-items-center" ><i class="fas ${bs.icon} text-warning"></i><button disabled onclick="upgradeGoldPerSec(${bs.id})" class=" btn-1 btn btn-success">Hire '${bs.name}' <br> cost: ${bs.upgradeCost}<br> <small> + ${bs.upgrade} gold per sec</small> </button></h1></div>
   </div>`;
     }
   });

@@ -18,7 +18,7 @@
   background-size: contain;
   width: 100vw;
 }
-.forge {
+.anvil {
   max-width: 50% !important;
   max-height: 50% !important;
 }
@@ -39,18 +39,27 @@
 }
 
 .upgrade-menu {
+  border: 2px solid rgb(222, 224, 57);
+
   z-index: 2;
   position: absolute;
   top: 20vh;
   /* min-width: 85vw; */
   min-height: 80vh;
+  left: 5vw;
+  right: 5vw;
+  width: 90vw;
 }
 .hire-menu {
+  border: 2px solid rgb(222, 224, 57);
   z-index: 2;
   position: absolute;
   top: 20vh;
   /* min-width: 85vw; */
   min-height: 80vh;
+  left: 5vw;
+  right: 5vw;
+  width: 90vw;
 }
 .game-background {
   color: aqua;
@@ -65,13 +74,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  left: 75vw;
-  top: 3vh;
+  left: 70vw;
+  top: 1vh;
   height: 3rem;
   width: 3rem;
-  background: rgb(236, 71, 71);
+  background: rgba(238, 255, 0, 0.596);
   border-radius: 100%;
+  color: rgb(0, 0, 0);
 }
+
 .wrap {
   flex-wrap: wrap;
   flex-direction: column;
@@ -83,7 +94,9 @@
 
 @keyframes slideup {
   0% {
+    top: 100vh;
   }
   100% {
+    top: 40vh;
   }
 }
