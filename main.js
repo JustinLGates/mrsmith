@@ -1,5 +1,6 @@
 //#region User interface manipulation
-
+let blacksmiths = [];
+let upgrades = [];
 /**
  * takes an element name and adds hidden class to argument
  * must be an elements id
@@ -70,7 +71,6 @@ class User {
   }
 }
 
-const player = {};
 //todo remove this before relasing game it is to make a player
 
 /**
@@ -79,9 +79,14 @@ const player = {};
  */
 
 let user = new User("");
+console.log(user);
 
 function createPlayer(username) {
   user.name = username;
+  user.tools = upgrades;
+  user.workers = blacksmiths;
+
+  saveGame();
   drawGoldCounter();
 }
 
@@ -122,6 +127,8 @@ function upgradeGoldPerSec(id) {
       drawHireOptions();
     }
   });
+  user.workers = blacksmiths;
+  saveGame();
 }
 function upClickPower(cost, amountToAdd) {
   user.gold -= cost;
@@ -136,6 +143,9 @@ function upgradeClickPower(id) {
       drawUpgradeOptions();
     }
   });
+  user.tools = upgrades;
+  saveGame();
+  console.log(user.tools);
 }
 var audio;
 
@@ -165,8 +175,7 @@ class Blacksmith {
     this.baseUpgrade = baseUpgrade;
   }
 }
-let blacksmiths = [];
-let upgrades = [];
+
 function createUpgrades() {
   let blacksmithApprentice = new Blacksmith(
     1234,
@@ -205,7 +214,7 @@ function createUpgrades() {
   upgrades.push(anvil);
   upgrades.push(forge);
 }
-createUpgrades();
+
 function drawUpgradeOptions() {
   let template = "";
   upgrades.forEach((u) => {
@@ -252,17 +261,19 @@ function saveGame() {
 function loadGame(username) {
   //todo add loading tools and smiths will need to change where they are created
   let gameData = window.localStorage.getItem(username);
-  console.log("loading.....");
+
   if (gameData) {
     user.name = JSON.parse(gameData).name;
     user.id = JSON.parse(gameData).id;
     user.gold = JSON.parse(gameData).gold;
     user.goldPerSecond = JSON.parse(gameData).goldPerSecond;
-    user.gold = 1000000;
+    upgrades = JSON.parse(gameData).tools;
+    blacksmiths = JSON.parse(gameData).workers;
+
     drawGoldCounter();
   } else {
+    createUpgrades();
     createPlayer(username);
-    user.gold = 1000000;
   }
 }
 
