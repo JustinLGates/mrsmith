@@ -52,6 +52,7 @@ class User {
   }
   addGoldOnClick() {
     this.gold += this.clickPower;
+    playHammerSound();
     drawGoldCounter();
   }
   addGoldAuto() {
@@ -94,13 +95,14 @@ function clickImg() {
 function upGoldPerSecond(cost, amount) {
   user.gold -= cost;
   user.goldPerSecond += amount;
-  drawGoldCounter();
 }
 
 function upgradeGoldPerSec(id) {
   blacksmiths.find((bs) => {
     if (bs.id === id) {
       upGoldPerSecond(bs.upgradeCost, bs.upgrade);
+      drawGoldCounter();
+      drawHireOptions();
     }
   });
 }
@@ -112,10 +114,17 @@ function upgradeClickPower(id) {
   upgrades.find((t) => {
     if (t.id === id) {
       upClickPower(t.upgradeCost, t.upgrade);
+      drawGoldCounter();
+      drawUpgradeOptions();
     }
   });
 }
+var audio;
+function playHammerSound() {
+  audio = document.getElementById("hammer1");
 
+  audio.play();
+}
 class Tool {
   constructor(id, upgradeCost, upgrade, icon, name) {
     this.id = id;
@@ -194,7 +203,8 @@ function drawHireOptions() {
   });
   document.getElementById("hb").innerHTML = template;
 }
-
+//todo add some logic to prevent err buying tons needs to update gold amt for display and make
+//sure that the button is redrawn on each click
 function refreshOptions() {
   drawUpgradeOptions();
   drawHireOptions();
