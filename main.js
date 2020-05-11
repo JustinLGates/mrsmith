@@ -33,12 +33,40 @@ function show(elementToShow) {
 function play(event) {
   event.preventDefault();
   let form = event.target;
-  //check if player has player
-  loadGame(form.username.value);
-  hide("start-menu");
-  show("game");
-  setRewardInterval();
-  saveGameIntervel();
+  let username = form.username.value;
+  let password = form.password.value;
+
+  if (isUserAlready(username)) {
+    if (checkPassword(username, password)) {
+      loadGame(username);
+      hide("start-menu");
+      show("game");
+      setRewardInterval();
+      saveGameIntervel();
+    } else {
+      displayInvalidPassword();
+    }
+  } else {
+    createPlayer(username, password);
+    createUpgrades();
+    hide("start-menu");
+    show("game");
+    setRewardInterval();
+    saveGameIntervel();
+  }
+}
+function isUserAlready(username) {
+  let data = window.localStorage.getItem(username);
+  if (data) {
+    return true;
+  }
+  return false;
+}
+function displayInvalidPassword() {
+  document.getElementById("wrong-password").classList.remove("hidden");
+  setTimeout(() => {
+    document.getElementById("wrong-password").classList.add("hidden");
+  }, 2000);
 }
 function saveGameIntervel() {
   setInterval(() => {
@@ -59,6 +87,7 @@ class User {
     this.goldPerSecond = 0.0;
     this.tools = [];
     this.workers = [];
+    this.password = "";
   }
   addGoldOnClick() {
     this.gold += this.clickPower;
@@ -71,28 +100,22 @@ class User {
   }
 }
 
-//todo remove this before relasing game it is to make a player
-
 /**
  * creates a new player
  * @param {string} username
  */
-
 let user = new User("");
 console.log(user);
 
-function createPlayer(username) {
+function createPlayer(username, password) {
   user.name = username;
   user.tools = upgrades;
   user.workers = blacksmiths;
-
+  user.password = password;
   saveGame();
   drawGoldCounter();
 }
 
-// function drawUserName(username) {
-//   document.getElementById("name-display").innerText = username;
-// }
 function drawGoldCounter() {
   document.getElementById("gold").innerText = `Gold: ${Math.floor(user.gold)
     .toFixed(2)
@@ -246,8 +269,7 @@ function drawHireOptions() {
   });
   document.getElementById("hb").innerHTML = template;
 }
-//todo add some logic to prevent err buying tons needs to update gold amt for display and make
-//sure that the button is redrawn on each click
+
 function refreshOptions() {
   drawUpgradeOptions();
   drawHireOptions();
@@ -255,13 +277,17 @@ function refreshOptions() {
 
 function saveGame() {
   window.localStorage.setItem(user.name, JSON.stringify(user));
-  //todo add saving tools and smiths
 }
 
+function checkPassword(un, pw) {
+  let data = window.localStorage.getItem(un);
+  if (JSON.parse(data).password === pw) {
+    return true;
+  }
+  return false;
+}
 function loadGame(username) {
-  //todo add loading tools and smiths will need to change where they are created
   let gameData = window.localStorage.getItem(username);
-
   if (gameData) {
     user.name = JSON.parse(gameData).name;
     user.id = JSON.parse(gameData).id;
@@ -269,7 +295,7 @@ function loadGame(username) {
     user.goldPerSecond = JSON.parse(gameData).goldPerSecond;
     upgrades = JSON.parse(gameData).tools;
     blacksmiths = JSON.parse(gameData).workers;
-
+    user.password = JSON.parse(gameData).password;
     drawGoldCounter();
   } else {
     createUpgrades();
@@ -292,4 +318,35 @@ function increaseCostHire(id) {
       smith.upgrade += smith.baseUpgrade;
     }
   });
+}
+
+function startSlideUpAnim(elementToShow) {
+  if (elementToShow === "upgrades") {
+    stopSlideUpAnim("hire-help");
+  } else if (elementToShow === "hire-help") {
+    stopSlideUpAnim("upgrades");
+  }
+  document.getElementById(elementToShow).classList.add("slideUpAnim");
+  document.getElementById(elementToShow).classList.remove("hidden");
+  refreshOptions();
+}
+function stopSlideUpAnim(elementToHide) {
+  document.getElementById(elementToHide).classList.remove("slideUpAnim");
+  document.getElementById(elementToHide).classList.add("slideDownAnim");
+  setTimeout(() => {
+    document.getElementById(elementToHide).classList.add("hidden");
+    document.getElementById(elementToHide).classList.remove("slideDownAnim");
+  }, 999);
+
+  refreshOptions();
+}
+
+function slideDown(element) {
+  let elem = document.getElementById(element);
+  elem.classList.remove("slideUpAnim");
+  elem.classList.add("slideDownAnim");
+  setTimeout(() => {
+    elem.classList.add("hidden");
+    elem.classList.remove("slideDownAnim");
+  }, 999);
 }
