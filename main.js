@@ -1,6 +1,5 @@
 //#region User interface manipulation
-let blacksmiths = [];
-let upgrades = [];
+
 /**
  * takes an element name and adds hidden class to argument
  * must be an elements id
@@ -139,6 +138,8 @@ function clickImg() {
 function upGoldPerSecond(cost, amount) {
   user.gold -= cost;
   user.goldPerSecond += amount;
+  user.workers = blacksmiths;
+  console.log(user.workers + "smiths");
 }
 
 function upgradeGoldPerSec(id) {
@@ -150,12 +151,14 @@ function upgradeGoldPerSec(id) {
       drawHireOptions();
     }
   });
-  user.workers = blacksmiths;
+
   saveGame();
+  console.log("saved");
 }
 function upClickPower(cost, amountToAdd) {
   user.gold -= cost;
   user.clickPower += amountToAdd;
+  user.tools = upgrades;
 }
 function upgradeClickPower(id) {
   upgrades.find((t) => {
@@ -166,9 +169,7 @@ function upgradeClickPower(id) {
       drawUpgradeOptions();
     }
   });
-  user.tools = upgrades;
   saveGame();
-  console.log(user.tools);
 }
 var audio;
 
@@ -202,7 +203,7 @@ class Blacksmith {
 function createUpgrades() {
   let blacksmithApprentice = new Blacksmith(
     1234,
-    250,
+    25,
     0.25,
     "fa-baby",
     "apprentice",
@@ -227,10 +228,11 @@ function createUpgrades() {
     250,
     1
   );
+
   blacksmiths.push(blacksmithApprentice);
   blacksmiths.push(blacksmithJournyman);
   blacksmiths.push(blacksmithMaster);
-  let hammer = new Tool(9877, 25, 0.25, "fa-hammer", "Hammer", 12, 0.25);
+  let hammer = new Tool(9877, 5, 0.25, "fa-hammer", "Hammer", 12, 0.25);
   let anvil = new Tool(8897765, 100, 1, "fa-archive", "anvil", 50, 0.5);
   let forge = new Tool(22153, 1000, 5, "fa-burn", "forge", 500, 1);
   upgrades.push(hammer);
@@ -286,6 +288,8 @@ function checkPassword(un, pw) {
   }
   return false;
 }
+let blacksmiths = [];
+let upgrades = [];
 function loadGame(username) {
   let gameData = window.localStorage.getItem(username);
   if (gameData) {
@@ -296,10 +300,9 @@ function loadGame(username) {
     upgrades = JSON.parse(gameData).tools;
     blacksmiths = JSON.parse(gameData).workers;
     user.password = JSON.parse(gameData).password;
+    user.tools = JSON.parse(gameData).tools;
+    user.workers = JSON.parse(gameData).workers;
     drawGoldCounter();
-  } else {
-    createUpgrades();
-    createPlayer(username);
   }
 }
 
