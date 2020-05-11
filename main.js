@@ -242,6 +242,7 @@ function createUpgrades() {
 
 function drawUpgradeOptions() {
   let template = "";
+  template += `<div class="text-center "><h4 class="p-4">Gold Per Click: ${user.clickPower}</h4>`;
   upgrades.forEach((u) => {
     if (user.gold >= u.upgradeCost) {
       template += `<div >
@@ -253,6 +254,7 @@ function drawUpgradeOptions() {
       </div>`;
     }
   });
+
   document.getElementById("ugb").innerHTML = template;
 }
 
@@ -269,6 +271,7 @@ function drawHireOptions() {
   </div>`;
     }
   });
+
   document.getElementById("hb").innerHTML = template;
 }
 
