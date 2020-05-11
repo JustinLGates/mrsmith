@@ -1,3 +1,5 @@
+let blacksmiths = [];
+let upgrades = [];
 //#region User interface manipulation
 
 /**
@@ -22,6 +24,9 @@ function show(elementToShow) {
     hide("upgrades");
   }
   refreshOptions();
+  document.getElementById(
+    "gold-per-click"
+  ).innerText = `Gold per click: ${user.clickPower}`;
 }
 //#endregion
 //#region initalizing the player and starting the game
@@ -116,6 +121,11 @@ function createPlayer(username, password) {
 }
 
 function drawGoldCounter() {
+  if (isMenuOpen) {
+    drawHireOptions();
+    drawUpgradeOptions();
+  }
+  drawButtons(hasTheCashUpgrade(), hasTheCashHire());
   document.getElementById("gold").innerText = `Gold: ${Math.floor(user.gold)
     .toFixed(2)
     .toString()}`;
@@ -129,7 +139,7 @@ function clickImg() {
   user.addGoldOnClick();
 
   document.getElementById("hammer").classList.add("fa-spin");
-  playHammerSound();
+
   setTimeout(() => {
     document.getElementById("hammer").classList.remove("fa-spin");
   }, 400);
@@ -159,6 +169,9 @@ function upClickPower(cost, amountToAdd) {
   user.gold -= cost;
   user.clickPower += amountToAdd;
   user.tools = upgrades;
+  document.getElementById(
+    "gold-per-click"
+  ).innerText = `Gold per click: ${user.clickPower}`;
 }
 function upgradeClickPower(id) {
   upgrades.find((t) => {
@@ -172,11 +185,14 @@ function upgradeClickPower(id) {
   saveGame();
 }
 var audio;
-
-function playHammerSound() {
+function setAudio() {
   audio = document.getElementById("hammer1");
+}
+setAudio();
+function playHammerSound() {
   audio.play();
 }
+
 class Tool {
   constructor(id, upgradeCost, upgrade, icon, name, baseCost, baseUpgrade) {
     this.id = id;
@@ -242,7 +258,7 @@ function createUpgrades() {
 
 function drawUpgradeOptions() {
   let template = "";
-  template += `<div class="text-center "><h4 class="p-4">Gold Per Click: ${user.clickPower}</h4>`;
+  template += `<div class="text-center "><h4 class="p-2">Upgrade tools</h4>`;
   upgrades.forEach((u) => {
     if (user.gold >= u.upgradeCost) {
       template += `<div >
@@ -260,6 +276,7 @@ function drawUpgradeOptions() {
 
 function drawHireOptions() {
   let template = "";
+  template += `<div class="text-center "><h4 class="p-2">Hire Blacksmith</h4>`;
   blacksmiths.forEach((bs) => {
     if (user.gold >= bs.upgradeCost) {
       template += `<div >
@@ -273,6 +290,20 @@ function drawHireOptions() {
   });
 
   document.getElementById("hb").innerHTML = template;
+}
+function drawButtons(enabledUpgrades, enabledHire) {
+  let template = "";
+  if (enabledUpgrades) {
+    template += `<button id="upgrade-btn" onclick="startSlideUpAnim('upgrades')" class="btn p-2 btn-success push-up">upgrades</button>`;
+  } else {
+    template += `<button disabled id="upgrade-btn" onclick="startSlideUpAnim('upgrades')" class="btn p-2 btn-success push-up">upgrades</button>`;
+  }
+  if (enabledHire) {
+    template += `<button onclick="startSlideUpAnim('hire-help')" class="btn p-2 btn-success push-up">Hire help</button>`;
+  } else {
+    template += `<button disabled onclick="startSlideUpAnim('hire-help')" class="btn p-2 btn-success push-up">Hire help</button>`;
+  }
+  document.getElementById("btn-place").innerHTML = template;
 }
 
 function refreshOptions() {
@@ -291,8 +322,7 @@ function checkPassword(un, pw) {
   }
   return false;
 }
-let blacksmiths = [];
-let upgrades = [];
+
 function loadGame(username) {
   let gameData = window.localStorage.getItem(username);
   if (gameData) {
@@ -325,7 +355,7 @@ function increaseCostHire(id) {
     }
   });
 }
-
+var isMenuOpen = false;
 function startSlideUpAnim(elementToShow) {
   if (elementToShow === "upgrades") {
     stopSlideUpAnim("hire-help");
@@ -335,6 +365,7 @@ function startSlideUpAnim(elementToShow) {
   document.getElementById(elementToShow).classList.add("slideUpAnim");
   document.getElementById(elementToShow).classList.remove("hidden");
   refreshOptions();
+  isMenuOpen = true;
 }
 function stopSlideUpAnim(elementToHide) {
   document.getElementById(elementToHide).classList.remove("slideUpAnim");
@@ -349,6 +380,7 @@ function stopSlideUpAnim(elementToHide) {
 
 function slideDown(element) {
   let elem = document.getElementById(element);
+  isMenuOpen = false;
   elem.classList.remove("slideUpAnim");
   elem.classList.add("slideDownAnim");
   setTimeout(() => {
@@ -356,3 +388,32 @@ function slideDown(element) {
     elem.classList.remove("slideDownAnim");
   }, 999);
 }
+
+function hasTheCashUpgrade() {
+  if (
+    upgrades.find((uc) => {
+      if (uc.upgradeCost < user.gold) {
+        return true;
+      }
+    })
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+function hasTheCashHire() {
+  if (
+    blacksmiths.find((hc) => {
+      if (hc.upgradeCost < user.gold) {
+        return true;
+      }
+    })
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function disableHireHelp() {}

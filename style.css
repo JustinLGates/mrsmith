@@ -12,6 +12,7 @@ body {
 .icon-big {
   font-size: 26pt;
   display: inline;
+  text-shadow: 1px black;
 }
 h1 {
   font-family: "Arbutus", cursive;
